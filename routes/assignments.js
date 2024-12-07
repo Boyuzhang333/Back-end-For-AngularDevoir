@@ -2,13 +2,18 @@ let Assignment = require('../model/assignment');
 
 
 // Récupérer tous les assignments (GET)
-function getAssignments(req, res){
-    Assignment.find((err, assignments) => {
-        if(err){
-            res.send(err)
-        }
+function getAssignments(req, res) {
+    const page = parseInt(req.query.page) || 1; // 默认第1页
+    const limit = parseInt(req.query.limit) || 10; // 默认每页10条记录
 
-        res.send(assignments);
+    const aggregateQuery = Assignment.aggregate(); // 创建聚合查询
+
+    Assignment.aggregatePaginate(aggregateQuery, { page, limit }, (err, result) => {
+        if (err) {
+            console.error("分页查询错误:", err);
+            return res.status(500).send(err);
+        }
+        res.json(result); // 返回分页结果
     });
 }
 
