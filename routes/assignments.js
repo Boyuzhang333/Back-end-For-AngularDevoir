@@ -4,7 +4,7 @@ let Assignment = require('../model/assignment');
 // Récupérer tous les assignments (GET)
 function getAssignments(req, res) {
     const page = parseInt(req.query.page) || 1; // 默认第1页
-    const limit = parseInt(req.query.limit) || 10; // 默认每页10条记录
+    const limit = parseInt(req.query.limit) || 4; // 默认每页10条记录
 
     const aggregateQuery = Assignment.aggregate(); // 创建聚合查询
 
